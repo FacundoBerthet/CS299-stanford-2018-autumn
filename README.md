@@ -4,17 +4,6 @@ Personal notes, problem set solutions and Python implementations
 while following the CS229 course by Stanford University.
 
 - [Lecture videos (YouTube)](https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU)
-- [Course website](http://cs229.stanford.edu/)
+- [Course website](https://cs229.stanford.edu/syllabus-autumn2018.html)
 
-## In this repo
 
-| Folder | Content |
-|--------|---------|
-| `problem-sets/` | My solutions to the official problem sets |
-| `notebooks/` | Python implementations of algorithms covered in lectures |
-
-## Syllabus
-
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Introduction | Done |
