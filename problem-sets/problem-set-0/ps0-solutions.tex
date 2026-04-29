@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}   % para ecuaciones
+\usepackage{amssymb}   % para símbolos como \mathbb{R}
+\usepackage{amsfonts}  % para fuentes matemáticas
+\usepackage[margin=0.7in]{geometry}  % márgenes reducidos
+
+\title{PS0 - Solutions}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\section{Gradients and Hessians}
+
+\subsection*{(a)}
+Let $f(x) = \frac{1}{2}x^TAx + b^Tx$, where $A$ is symmetric and $b \in \mathbb{R}^n$. 
+We compute the gradient by splitting into two terms:
+
+\textbf{Term 1:} Using $\nabla_x x^TAx = 2Ax$ (since $A$ is symmetric):
+$$\nabla_x\left(\frac{1}{2}x^TAx\right) = \frac{1}{2} \cdot 2Ax = Ax$$
+
+\textbf{Term 2:} Using $\nabla_x b^Tx = b$:
+$$\nabla_x\left(b^Tx\right) = b$$
+
+\textbf{Therefore:}
+$$\nabla f(x) = Ax + b$$
+
+\subsection*{(b)}
+Let $f(x) = g(h(x))$, where $g : \mathbb{R} \to \mathbb{R}$ and 
+$h : \mathbb{R}^n \to \mathbb{R}$ are differentiable. We apply the chain rule.
+
+For each partial derivative with respect to $x_i$:
+$$\frac{\partial f}{\partial x_i} = g'(h(x)) \cdot \frac{\partial h(x)}{\partial x_i}$$
+
+Stacking all partial derivatives into a vector:
+$$\boxed{\nabla f(x) = g'(h(x)) \cdot \nabla h(x)}$$
+
+where $g'(h(x)) \in \mathbb{R}$ is a scalar and $\nabla h(x) \in \mathbb{R}^n$ is a vector.
+
+\subsection*{(c)}
+Let $f(x) = \frac{1}{2}x^TAx + b^Tx$. From part (a), we know that 
+$\nabla f(x) = Ax + b$. Taking the gradient again:
+
+$$\nabla^2 f(x) = A$$
+
+since $\nabla^2_x(Ax) = A$ and $\nabla^2_x(b) = 0$.
+
+\subsection*{(d)}
+Let $f(x) = g(a^Tx)$, where $g : \mathbb{R} \to \mathbb{R}$ and $a \in \mathbb{R}^n$.
+
+\textbf{Gradient:} This is the chain rule from (b) with $h(x) = a^Tx$:
+$$\nabla f(x) = g'(a^Tx) \cdot a$$
+
+\textbf{Hessian:} We differentiate the gradient with respect to $x$. 
+Since $a$ is constant, we apply the chain rule to $g'(a^Tx)$. 
+The $(i,j)$ entry of the Hessian is:
+$$\frac{\partial^2 f}{\partial x_i \partial x_j} = g''(a^Tx) \cdot a_i \cdot a_j$$
+
+Recognizing that $a_i a_j$ is the $(i,j)$ entry of the outer product $aa^T$:
+$$\nabla^2 f(x) = g''(a^Tx)(aa^T)$$
+
+
+\section{Positive Definite Matrices}
+
+\subsection*{(a)}
+We want to show that $A = zz^T$ is PSD, i.e., $x^TAx \geq 0$ 
+for all $x \in \mathbb{R}^n$. Substituting $A = zz^T$:
+
+$$x^TAx = x^T(zz^T)x = (x^Tz)(z^Tx) = (x^Tz)^2 \geq 0$$
+
+where the last inequality holds since any real number squared is 
+non-negative. $\blacksquare$
+
+\subsection*{(b)}
+Let $A = zz^T$ with $z \neq 0$. 
+
+\textbf{Nullspace:} We need $Ax = zz^Tx = z(z^Tx) = 0$. Since 
+$z \neq 0$, this requires $z^Tx = 0$. Therefore:
+$$\mathcal{N}(A) = \{x \in \mathbb{R}^n : z^Tx = 0\}$$
+which is the set of all vectors orthogonal to $z$, a subspace 
+of dimension $n-1$.
+
+\textbf{Rank:} By the rank-nullity theorem:
+$$\text{rank}(A) + \dim(\mathcal{N}(A)) = n 
+\implies \text{rank}(A) = n - (n-1) = 1$$
+
+\subsection*{(c)}
+We claim $BAB^T$ is PSD. For any $x \in \mathbb{R}^m$, 
+let $y = B^Tx \in \mathbb{R}^n$. Then:
+
+$$x^T(BAB^T)x = (B^Tx)^T A (B^Tx) = y^TAy \geq 0$$
+
+where the last inequality holds since $A$ is PSD by hypothesis. 
+Since this holds for all $x \in \mathbb{R}^m$, $BAB^T$ is PSD. 
+$\blacksquare$
+
+\section{Eigenvectors, Eigenvalues, and the Spectral Theorem}
+
+\subsection*{(a)}
+Given $A = T\Lambda T^{-1}$, we multiply both sides on the right by $T$:
+$$AT = T\Lambda$$
+
+Looking at the $i$-th column of each side. The $i$-th column of 
+the left side is $At^{(i)}$. Since multiplying by a diagonal matrix 
+on the right scales each column, the $i$-th column of $T\Lambda$ is 
+$\lambda_i t^{(i)}$. Therefore:
+$$At^{(i)} = \lambda_i t^{(i)} \quad \blacksquare$$
+
+\subsection*{(b)}
+Given $A = U\Lambda U^T$, we multiply on the right by $u^{(i)}$:
+$$Au^{(i)} = U\Lambda U^T u^{(i)}$$
+
+Since the columns of $U$ are orthonormal, $U^Tu^{(i)} = e_i$, 
+the $i$-th canonical vector:
+$$(U^Tu^{(i)})_j = (u^{(j)})^T u^{(i)} = \begin{cases} 1 & j = i \\ 
+0 & j \neq i \end{cases}$$
+
+Applying $\Lambda$ and then $U$:
+$$Au^{(i)} = U\Lambda e_i = U(\lambda_i e_i) = \lambda_i Ue_i = 
+\lambda_i u^{(i)} \quad \blacksquare$$
+
+\subsection*{(c)}
+Since $A$ is PSD, by definition $x^TAx \geq 0$ for all 
+$x \in \mathbb{R}^n$. Choosing $x = u^{(i)}$:
+$$u^{(i)T}Au^{(i)} \geq 0$$
+
+From part (b), $Au^{(i)} = \lambda_i u^{(i)}$, therefore:
+$$u^{(i)T}(\lambda_i u^{(i)}) = \lambda_i \underbrace{u^{(i)T}
+u^{(i)}}_{=1} = \lambda_i \geq 0 \quad \blacksquare$$
+
+\end{document}
